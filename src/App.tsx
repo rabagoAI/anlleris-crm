@@ -35,7 +35,7 @@ export default function App() {
     <div className="flex h-screen overflow-hidden" style={{ background: '#F8F9FA' }}>
       <Sidebar currentPage={page} onNavigate={setPage} />
 
-      <main className="flex-1 overflow-hidden flex flex-col">
+      <main className="flex-1 overflow-hidden flex flex-col pt-12 md:pt-0">
         {page === 'inventario'  && <InventarioPage onToast={addToast} />}
         {page === 'informes'    && <InformesPage />}
         {page === 'proveedores' && <ProveedoresPage />}

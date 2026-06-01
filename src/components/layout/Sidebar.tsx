@@ -1,4 +1,5 @@
-import { Package, BarChart2, Truck, History, BellRing, ShoppingCart, ClipboardList } from 'lucide-react'
+import { useState } from 'react'
+import { Package, BarChart2, Truck, History, BellRing, ShoppingCart, ClipboardList, Menu, X } from 'lucide-react'
 import { useInventoryStore, usePedidosActivos, useTareasPendientes } from '../../store/inventoryStore'
 import { necesitaReposicion } from '../../types'
 
@@ -24,15 +25,30 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
   const totalAlertas = useInventoryStore((s) => s.productos.filter(necesitaReposicion).length)
   const pedidosActivos = usePedidosActivos()
   const tareasPendientes = useTareasPendientes()
+  const [open, setOpen] = useState(false)
 
-  return (
-    <aside className="w-56 min-h-screen bg-white border-r border-gray-200 flex flex-col shrink-0">
+  function handleNavigate(page: Page) {
+    onNavigate(page)
+    setOpen(false)
+  }
+
+  const navContent = (
+    <>
       {/* Logo */}
-      <div className="px-5 py-5 border-b border-gray-200">
-        <span className="text-xl font-bold tracking-wide" style={{ color: '#185FA5' }}>
-          ANLLERIS
-        </span>
-        <p className="text-xs text-gray-400 mt-0.5">Gestión de Stock</p>
+      <div className="px-5 py-5 border-b border-gray-200 flex items-center justify-between">
+        <div>
+          <span className="text-xl font-bold tracking-wide" style={{ color: '#185FA5' }}>
+            ANLLERIS
+          </span>
+          <p className="text-xs text-gray-400 mt-0.5">Gestión de Stock</p>
+        </div>
+        {/* Botón cerrar en móvil */}
+        <button
+          className="md:hidden p-1 text-gray-400 hover:text-gray-600"
+          onClick={() => setOpen(false)}
+        >
+          <X size={20} />
+        </button>
       </div>
 
       {/* Navegación */}
@@ -52,7 +68,7 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
           return (
             <button
               key={item.id}
-              onClick={() => onNavigate(item.id)}
+              onClick={() => handleNavigate(item.id)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${
                 active
                   ? 'text-white'
@@ -88,6 +104,41 @@ export default function Sidebar({ currentPage, onNavigate }: SidebarProps) {
       <div className="px-5 py-4 border-t border-gray-200">
         <p className="text-xs text-gray-400">v1.0 · RABAGO AI</p>
       </div>
-    </aside>
+    </>
+  )
+
+  return (
+    <>
+      {/* Botón hamburguesa — solo móvil */}
+      <button
+        className="md:hidden fixed top-3 left-3 z-50 p-2 bg-white border border-gray-200 rounded-lg shadow-sm"
+        onClick={() => setOpen(true)}
+        aria-label="Abrir menú"
+      >
+        <Menu size={20} className="text-gray-600" />
+      </button>
+
+      {/* Overlay fondo — móvil */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0 z-40 bg-black/40"
+          onClick={() => setOpen(false)}
+        />
+      )}
+
+      {/* Sidebar móvil — drawer */}
+      <aside
+        className={`md:hidden fixed top-0 left-0 z-50 h-full w-64 bg-white flex flex-col shadow-xl transition-transform duration-200 ${
+          open ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        {navContent}
+      </aside>
+
+      {/* Sidebar desktop — fijo */}
+      <aside className="hidden md:flex w-56 min-h-screen bg-white border-r border-gray-200 flex-col shrink-0">
+        {navContent}
+      </aside>
+    </>
   )
 }

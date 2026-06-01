@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { useMemo } from 'react'
 import type { Producto, FiltrosInventario, Movimiento, TipoMovimiento, Pedido, LineaPedido, ResultadoImportacion, Tarea, EstadoTarea } from '../types'
 
@@ -59,7 +60,7 @@ function siguienteNumeroPedido(pedidos: Pedido[]): string {
   return `P-${String(max + 1).padStart(3, '0')}`
 }
 
-export const useInventoryStore = create<InventoryState>((set, get) => ({
+export const useInventoryStore = create<InventoryState>()(persist((set, get) => ({
   productos: [],
   filtros: { busqueda: '', proveedor: '', estado: '', categoria: '' },
   movimientos: [],
@@ -277,7 +278,7 @@ export const useInventoryStore = create<InventoryState>((set, get) => ({
           : t
       ),
     })),
-}))
+}), { name: 'anlleris-stock' }))
 
 /**
  * Devuelve los productos filtrados con useMemo para evitar bucles infinitos

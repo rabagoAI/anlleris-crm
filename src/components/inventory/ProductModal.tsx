@@ -215,11 +215,15 @@ export default function ProductModal({ mode, producto, onSave, onClose }: Produc
             <div>
               <label className={labelClass}>Fecha recuento</label>
               <input
-                type="text"
-                value={form.fechaRecuento ?? ''}
-                onChange={(e) => set('fechaRecuento', e.target.value)}
+                type="date"
+                value={form.fechaRecuento
+                  ? form.fechaRecuento.split('/').reverse().join('-')
+                  : ''}
+                onChange={(e) => {
+                  const [y, m, d] = e.target.value.split('-')
+                  set('fechaRecuento', e.target.value ? `${d}/${m}/${y}` : '')
+                }}
                 className={inputClass()}
-                placeholder="DD/MM/YYYY"
               />
             </div>
 
@@ -227,11 +231,15 @@ export default function ProductModal({ mode, producto, onSave, onClose }: Produc
             <div>
               <label className={labelClass}>Fecha utilización</label>
               <input
-                type="text"
-                value={form.fechaUtilizacion ?? ''}
-                onChange={(e) => set('fechaUtilizacion', e.target.value)}
+                type="date"
+                value={form.fechaUtilizacion
+                  ? form.fechaUtilizacion.split('/').reverse().join('-')
+                  : ''}
+                onChange={(e) => {
+                  const [y, m, d] = e.target.value.split('-')
+                  set('fechaUtilizacion', e.target.value ? `${d}/${m}/${y}` : '')
+                }}
                 className={inputClass()}
-                placeholder="DD/MM/YYYY"
               />
             </div>
 

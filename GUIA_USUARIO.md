@@ -262,9 +262,6 @@ En la versión actual, los datos viven en la memoria del navegador y se pierden 
 ### Notificaciones automáticas de alerta
 Envío de un correo o mensaje cuando una referencia caiga por debajo del stock mínimo, sin necesidad de entrar a la app a revisar.
 
-### App móvil / vista adaptada
-Optimización de la interfaz para tablets y móviles, especialmente útil para operarios que trabajan con tablet en el almacén.
-
 ---
 
 *Documento generado por RABAGO AI · ANLLERIS Gestión de Stock v1.0*

@@ -141,11 +141,15 @@ export default function NuevoPedidoModal({ onSave, onClose }: NuevoPedidoModalPr
             <div>
               <label className={labelClass}>Fecha esperada de llegada</label>
               <input
-                type="text"
-                value={fechaEsperada}
-                onChange={(e) => setFechaEsperada(e.target.value)}
+                type="date"
+                value={fechaEsperada
+                  ? fechaEsperada.split('/').reverse().join('-')
+                  : ''}
+                onChange={(e) => {
+                  const [y, m, d] = e.target.value.split('-')
+                  setFechaEsperada(e.target.value ? `${d}/${m}/${y}` : '')
+                }}
                 className={inputClass}
-                placeholder="DD/MM/YYYY"
               />
             </div>
           </div>

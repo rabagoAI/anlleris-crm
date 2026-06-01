@@ -120,11 +120,15 @@ export default function TareaModal({ mode, tarea, refInicial, onSave, onClose }:
             <div>
               <label className={labelClass}>Fecha límite</label>
               <input
-                type="text"
-                value={form.fechaVencimiento ?? ''}
-                onChange={(e) => setForm((f) => ({ ...f, fechaVencimiento: e.target.value }))}
+                type="date"
+                value={form.fechaVencimiento
+                  ? form.fechaVencimiento.split('/').reverse().join('-')
+                  : ''}
+                onChange={(e) => {
+                  const [y, m, d] = e.target.value.split('-')
+                  setForm((f) => ({ ...f, fechaVencimiento: e.target.value ? `${d}/${m}/${y}` : '' }))
+                }}
                 className={inputClass}
-                placeholder="DD/MM/YYYY"
               />
             </div>
           </div>
